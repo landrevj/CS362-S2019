@@ -798,6 +798,32 @@ int cardeffect_village(struct gameState *state, int handPos)
   return 0;
 }
 
+int cardeffect_steward(int choice1, int choice2, int choice3, struct gameState *state, int handPos)
+{
+  int currentPlayer = whoseTurn(state);
+  if (choice1 == 1)
+  {
+    //+2 cards
+    drawCard(currentPlayer, state);
+    drawCard(currentPlayer, state);
+  }
+  else if (choice1 == 2)
+  {
+    //+2 coins
+    state->coins = state->coins + 2;
+  }
+  else
+  {
+    //trash 2 cards in hand
+    discardCard(choice2, currentPlayer, state, 1);
+    discardCard(choice3, currentPlayer, state, 1);
+  }
+
+  //discard card from hand
+  discardCard(handPos, currentPlayer, state, 0);
+  return 0;
+}
+
 int cardEffect(int card, int choice1, int choice2, int choice3, struct gameState *state, int handPos, int *bonus)
 {
   int i;
@@ -1100,27 +1126,7 @@ int cardEffect(int card, int choice1, int choice2, int choice3, struct gameState
     return 0;
 
   case steward:
-    if (choice1 == 1)
-    {
-      //+2 cards
-      drawCard(currentPlayer, state);
-      drawCard(currentPlayer, state);
-    }
-    else if (choice1 == 2)
-    {
-      //+2 coins
-      state->coins = state->coins + 2;
-    }
-    else
-    {
-      //trash 2 cards in hand
-      discardCard(choice2, currentPlayer, state, 1);
-      discardCard(choice3, currentPlayer, state, 1);
-    }
-
-    //discard card from hand
-    discardCard(handPos, currentPlayer, state, 0);
-    return 0;
+    return cardeffect_steward(choice1, choice2, choice3, state, handPos);
 
   case tribute:
     if ((state->discardCount[nextPlayer] + state->deckCount[nextPlayer]) <= 1)
