@@ -743,7 +743,7 @@ int cardeffect_adventurer(struct gameState *state)
   int currentPlayer = whoseTurn(state);
   int drawntreasure = 0;
   int temphand[MAX_HAND];
-  int z = 0;              // this is the counter for the temp hand
+  int z = 0; // this is the counter for the temp hand
 
   while (drawntreasure < 2)
   {
@@ -821,6 +821,26 @@ int cardeffect_steward(int choice1, int choice2, int choice3, struct gameState *
 
   //discard card from hand
   discardCard(handPos, currentPlayer, state, 0);
+  return 0;
+}
+
+int cardeffect_embargo(int choice1, struct gameState *state, int handPos)
+{
+  int currentPlayer = whoseTurn(state);
+  //+2 Coins
+  state->coins = state->coins + 2;
+
+  //see if selected pile is in play
+  if (state->supplyCount[choice1] == -1)
+  {
+    return -1;
+  }
+
+  //add embargo token to selected supply pile
+  state->embargoTokens[choice1]++;
+
+  //trash card
+  discardCard(handPos, currentPlayer, state, 1);
   return 0;
 }
 
@@ -1291,21 +1311,7 @@ int cardEffect(int card, int choice1, int choice2, int choice3, struct gameState
     return 0;
 
   case embargo:
-    //+2 Coins
-    state->coins = state->coins + 2;
-
-    //see if selected pile is in play
-    if (state->supplyCount[choice1] == -1)
-    {
-      return -1;
-    }
-
-    //add embargo token to selected supply pile
-    state->embargoTokens[choice1]++;
-
-    //trash card
-    discardCard(handPos, currentPlayer, state, 1);
-    return 0;
+    return cardeffect_embargo(choice1, state, handPos);
 
   case outpost:
     //set outpost flag
