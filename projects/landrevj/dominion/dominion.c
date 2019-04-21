@@ -745,7 +745,7 @@ int cardeffect_adventurer(struct gameState *state)
   int temphand[MAX_HAND];
   int z = 0; // this is the counter for the temp hand
 
-  while (drawntreasure < 2)
+  while (drawntreasure < 2) // BUG ADDED - changed from dt < 2 to dt < 5
   {
     if (state->deckCount[currentPlayer] < 1)
     { //if the deck is empty we need to shuffle discard and add to deck
@@ -780,7 +780,7 @@ int cardeffect_smithy(struct gameState *state, int handPos)
   }
 
   //discard card from hand
-  discardCard(handPos, currentPlayer, state, 0);
+  discardCard((handPos == 0 ? 0 : handPos - 1), currentPlayer, state, 0); // BUG ADDED - changed first argument from handPos to (handPos == 0 ? 0 : handPos - 1)
   return 0;
 }
 
@@ -806,17 +806,18 @@ int cardeffect_steward(int choice1, int choice2, int choice3, struct gameState *
     //+2 cards
     drawCard(currentPlayer, state);
     drawCard(currentPlayer, state);
+    drawCard(currentPlayer, state); // BUG ADDED - an extra call to drawCard
   }
   else if (choice1 == 2)
   {
     //+2 coins
-    state->coins = state->coins + 2;
+    state->coins = state->coins + 5; // BUG ADDED - changed state->coins + 2 to +5
   }
   else
   {
     //trash 2 cards in hand
     discardCard(choice2, currentPlayer, state, 1);
-    discardCard(choice3, currentPlayer, state, 1);
+    discardCard(choice3, currentPlayer, state, 0); // BUG ADDED - changed the last argument from 1 to 0
   }
 
   //discard card from hand
@@ -828,7 +829,7 @@ int cardeffect_embargo(int choice1, struct gameState *state, int handPos)
 {
   int currentPlayer = whoseTurn(state);
   //+2 Coins
-  state->coins = state->coins + 2;
+  state->coins = state->coins + 5; // BUG ADDED - changed state->coins + 2 to +5
 
   //see if selected pile is in play
   if (state->supplyCount[choice1] == -1)
@@ -840,7 +841,7 @@ int cardeffect_embargo(int choice1, struct gameState *state, int handPos)
   state->embargoTokens[choice1]++;
 
   //trash card
-  discardCard(handPos, currentPlayer, state, 1);
+  discardCard(handPos, currentPlayer, state, 0); // BUG ADDED - changed the last argument from 1 to 0
   return 0;
 }
 
