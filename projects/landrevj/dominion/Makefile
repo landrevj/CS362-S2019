@@ -12,7 +12,6 @@ playdom: dominion.o playdom.c
 testDrawCard: testDrawCard.c dominion.o rngs.o
 	gcc  -o testDrawCard -g  testDrawCard.c dominion.o rngs.o $(CFLAGS)
 
-
 #########
 
 badTestDrawCard: badTestDrawCard.c dominion.o rngs.o
@@ -32,6 +31,59 @@ runtests: testDrawCard
 	gcov dominion.c >> unittestresult.out
 	cat dominion.c.gcov >> unittestresult.out
 
+######## Assignment 3 tests
+unittest1: unittest1.c dominion.o
+	gcc -o unittest1 -g  unittest1.c dominion.o rngs.o $(CFLAGS)
+unittest2: unittest2.c dominion.o
+	gcc -o unittest2 -g  unittest2.c dominion.o rngs.o $(CFLAGS)
+unittest3: unittest3.c dominion.o
+	gcc -o unittest3 -g  unittest3.c dominion.o rngs.o $(CFLAGS)
+unittest4: unittest4.c dominion.o
+	gcc -o unittest4 -g  unittest4.c dominion.o rngs.o $(CFLAGS)
+
+cardtest1: cardtest1.c dominion.o
+	gcc -o cardtest1 -g  cardtest1.c dominion.o rngs.o $(CFLAGS)
+cardtest2: cardtest2.c dominion.o
+	gcc -o cardtest2 -g  cardtest2.c dominion.o rngs.o $(CFLAGS)
+cardtest3: cardtest3.c dominion.o
+	gcc -o cardtest3 -g  cardtest3.c dominion.o rngs.o $(CFLAGS)
+cardtest4: cardtest4.c dominion.o
+	gcc -o cardtest4 -g  cardtest4.c dominion.o rngs.o $(CFLAGS)
+
+unittestresults: unittest1.c dominion.o unittest1 unittest2 unittest3 unittest4 cardtest1 cardtest2 cardtest3 cardtest4
+	: > unittestresults.out
+	./unittest1 >> unittestresults.out
+	gcov -fb dominion.gcda | grep cardeffect_adventurer -A 4 >> unittestresults.out
+	echo "" >> unittestresults.out
+	
+	./unittest2 >> unittestresults.out
+	gcov -fb dominion.gcda | grep cardeffect_smithy -A 4 >> unittestresults.out
+	echo "" >> unittestresults.out
+
+	./unittest3 >> unittestresults.out
+	gcov -fb dominion.gcda | grep cardeffect_village -A 4 >> unittestresults.out
+	echo "" >> unittestresults.out
+
+	./unittest4 >> unittestresults.out
+	gcov -fb dominion.gcda | grep cardeffect_steward -A 4 >> unittestresults.out
+	echo "" >> unittestresults.out
+
+	./cardtest1 >> unittestresults.out
+	gcov -fb dominion.gcda | grep cardeffect_embargo -A 4 >> unittestresults.out
+	echo "" >> unittestresults.out
+
+	./cardtest2 >> unittestresults.out
+	gcov -fb dominion.gcda | grep cardeffect_adventurer -A 4 >> unittestresults.out
+	echo "" >> unittestresults.out
+
+	./cardtest3 >> unittestresults.out
+	gcov -fb dominion.gcda | grep cardeffect_smithy -A 4 >> unittestresults.out
+	echo "" >> unittestresults.out
+
+	./cardtest4 >> unittestresults.out
+	gcov -fb dominion.gcda | grep cardEffect -A 4 >> unittestresults.out
+
+########
 
 player: player.c interface.o
 	gcc -o player player.c -g  dominion.o rngs.o interface.o $(CFLAGS)
@@ -39,4 +91,4 @@ player: player.c interface.o
 all: playdom player 
 
 clean:
-	rm -f *.o playdom.exe playdom player player.exe  *.gcov *.gcda *.gcno *.so *.out testDrawCard testDrawCard.exe
+	rm -f *.o playdom.exe playdom player player.exe  *.gcov *.gcda *.gcno *.so *.out testDrawCard testDrawCard.exe unittest1 unittest2 unittest3 unittest4 cardtest1 cardtest2 cardtest3 cardtest4
