@@ -5,14 +5,19 @@
 
 char inputChar ()
 {
-	// TODO: rewrite this function
-	return ' ';
+	return rand() % ( 126 + 1 - 32 ) + 32;
 }
 
 char * inputString ()
 {
-	// TODO: rewrite this function
-	return "";
+  char *r = (char*) malloc(6 * sizeof(char));
+  for(int i = 0; i < 5; i++)
+  {
+    r[i] = rand() % ( 116 + 1 - 101 ) + 101;
+  }
+
+  r[5] = '\0';
+	return r;
 }
 
 void testme ()
@@ -45,6 +50,7 @@ void testme ()
 			printf( "error " );
 			exit( 200 );
 		}
+    free(s);
 	}
 }
 
