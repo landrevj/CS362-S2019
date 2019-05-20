@@ -32,6 +32,31 @@ runtests: testDrawCard
 	gcov dominion.c >> unittestresult.out
 	cat dominion.c.gcov >> unittestresult.out
 
+######## Assignment 4 tests
+randomtestcard1: randomtestcard1.c dominion.o rngs.o
+	gcc -o randomtestcard1 -g randomtestcard1.c dominion.o rngs.o $(CFLAGS)
+randomtestcard2: randomtestcard2.c dominion.o rngs.o
+	gcc -o randomtestcard2 -g randomtestcard2.c dominion.o rngs.o $(CFLAGS)
+randomtestadventurer: randomtestadventurer.c dominion.o rngs.o
+	gcc -o randomtestadventurer -g randomtestadventurer.c dominion.o rngs.o $(CFLAGS)
+
+randomtestresults: dominion.o rngs.o randomtestcard1 randomtestcard2 randomtestadventurer
+	: > randomtestresults.out
+
+	echo "######################################################################################## cardeffect_smithy\n" >> randomtestresults.out
+	./randomtestcard1 >> randomtestresults.out
+	gcov -fb dominion.gcda | grep cardeffect_smithy -A 5 >> randomtestresults.out
+	echo "" >> randomtestresults.out
+
+	echo "######################################################################################## cardeffect_steward\n" >> randomtestresults.out
+	./randomtestcard2 >> randomtestresults.out
+	gcov -fb dominion.gcda | grep cardeffect_steward -A 5 >> randomtestresults.out
+	echo "" >> randomtestresults.out
+	
+	echo "######################################################################################## cardeffect_adventurer\n" >> randomtestresults.out
+	./randomtestadventurer >> randomtestresults.out
+	gcov -fb dominion.gcda | grep cardeffect_adventurer -A 5 >> randomtestresults.out
+###########################
 
 player: player.c interface.o
 	gcc -o player player.c -g  dominion.o rngs.o interface.o $(CFLAGS)
@@ -39,4 +64,4 @@ player: player.c interface.o
 all: playdom player 
 
 clean:
-	rm -f *.o playdom.exe playdom player player.exe  *.gcov *.gcda *.gcno *.so *.out testDrawCard testDrawCard.exe
+	rm -f *.o playdom.exe playdom player player.exe  *.gcov *.gcda *.gcno *.so *.out testDrawCard testDrawCard.exe randomtestcard1 randomtestcard2 randomtestadventurer

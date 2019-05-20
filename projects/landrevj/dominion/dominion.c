@@ -745,7 +745,7 @@ int cardeffect_adventurer(struct gameState *state)
   int temphand[MAX_HAND];
   int z = 0; // this is the counter for the temp hand
 
-  while (drawntreasure < 2) // BUG ADDED - changed from dt < 2 to dt < 5
+  while (drawntreasure < 5) // BUG ADDED - changed from dt < 2 to dt < 5
   {
     if (state->deckCount[currentPlayer] < 1)
     { //if the deck is empty we need to shuffle discard and add to deck
