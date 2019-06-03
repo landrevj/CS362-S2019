@@ -20,7 +20,7 @@ int main()
   int player = whoseTurn(&G);
 
   int before = G.handCount[player];
-  cardeffect_smithy(&G, 0);
+  smithyEffect(&G, 0);
   int after = G.handCount[player];
 
   assert_true("cards added == 3", (after - before) == 2); // we draw three then discard the played card, so a difference of 2

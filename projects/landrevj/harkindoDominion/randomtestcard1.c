@@ -56,7 +56,7 @@ int main()
     {
       // count the number of cards in hand before and after smithy is played
       int before = G.handCount[player];
-      cardeffect_smithy(&G, cardpos_before);
+      smithyEffect(&G, cardpos_before);
       int after = G.handCount[player];
       int cardpos_after = find_card_in_hand(smithy, &G);
 

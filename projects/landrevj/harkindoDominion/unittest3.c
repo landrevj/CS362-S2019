@@ -22,7 +22,7 @@ int main()
 
   int actions_before = G.numActions;
   int before = G.handCount[player];
-  cardeffect_village(&G, 0);
+  cardEffect(village, 0, 0, 0, &G, 0, NULL);
   int after = G.handCount[player];
   int actions_after = G.numActions;
 

@@ -49,7 +49,7 @@ int main()
 
     int before = get_treasure_count(player, &G);  // count treasures before and after
     printf("treasures before: %d\n", before);
-    cardeffect_adventurer(&G);
+    adventurerEffect(adventurer, &G);
     int after = get_treasure_count(player, &G);
     printf("treasures after: %d\n", after);
 

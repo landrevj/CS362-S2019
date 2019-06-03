@@ -29,7 +29,7 @@ int main()
   int player = whoseTurn(&G);
 
   int before = get_treasure_count(player, &G);
-  cardeffect_adventurer(&G);
+  adventurerEffect(adventurer, &G);
   int after = get_treasure_count(player, &G);
 
   assert_true("treasures added == 2", (after - before) == 2);
